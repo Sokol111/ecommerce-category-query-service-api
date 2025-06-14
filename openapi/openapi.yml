@@ -1,0 +1,83 @@
+openapi: 3.0.0
+info:
+  title: Category API
+  version: 1.0.1
+  description: API for querying categories
+paths:
+  /category/get/{id}:
+    get:
+      summary: Get a category by ID
+      operationId: getCategoryById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Category retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryResponse"
+        "404":
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Standard internal error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /category/list:
+    get:
+      summary: Get a list of all categories
+      operationId: getAll
+      responses:
+        "200":
+          description: List of categories retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CategoryResponse"
+        "500":
+          description: Standard internal error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    CategoryResponse:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          example: "678b74a36fc2b2605c6f579d"
+        name:
+          type: string
+          example: "Smartphones"
+    ErrorResponse:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          example: 404
+        message:
+          type: string
+          example: "Category not found"
+        details:
+          type: string
+          example: "Optional additional information about the error"
