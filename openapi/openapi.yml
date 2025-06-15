@@ -1,42 +1,13 @@
 openapi: 3.0.0
 info:
   title: Category API
-  version: 1.0.2
+  version: 1.0.3
   description: API for querying categories
 paths:
-  /category/get/{id}:
+  /category/list-active-categories:
     get:
-      summary: Get a category by ID
-      operationId: getCategoryById
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Category retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CategoryResponse"
-        "404":
-          description: Category not found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "500":
-          description: Standard internal error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-  /category/list:
-    get:
-      summary: Get a list of all categories
-      operationId: getAll
+      summary: Get a list of all active categories
+      operationId: getAllActiveCategories
       responses:
         "200":
           description: List of categories retrieved successfully
@@ -77,7 +48,7 @@ components:
           example: 404
         message:
           type: string
-          example: "Category not found"
+          example: "Not found"
         details:
           type: string
           example: "Optional additional information about the error"
