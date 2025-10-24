@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Category API
-  version: 1.0.4
+  version: 1.0.5
   description: API for querying categories
 paths:
   /category/list-active-categories:
@@ -20,9 +20,9 @@ paths:
         "500":
           description: Standard internal error
           content:
-            application/json:
+            application/problem+json:
               schema:
-                $ref: "#/components/schemas/ErrorResponse"
+                $ref: "#/components/schemas/Problem"
 components:
   schemas:
     CategoryResponse:
@@ -37,18 +37,21 @@ components:
         name:
           type: string
           example: "Smartphones"
-    ErrorResponse:
+    Problem:
       type: object
-      required:
-        - code
-        - message
+      description: RFC7807 Problem Details
+      required: [type, title, status]
       properties:
-        code:
-          type: integer
-          example: 404
-        message:
-          type: string
-          example: "Not found"
-        details:
-          type: string
-          example: "Optional additional information about the error"
+        type: { type: string, format: uri }
+        title: { type: string }
+        status: { type: integer }
+        detail: { type: string }
+        instance: { type: string, format: uri }
+        traceId: { type: string }
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              field: { type: string }
+              message: { type: string }
