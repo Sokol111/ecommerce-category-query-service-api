@@ -1,10 +1,10 @@
 openapi: 3.0.0
 info:
   title: Category API
-  version: 1.0.8
+  version: 1.0.9
   description: API for querying categories
 paths:
-  /category/list-active-categories:
+  /v1/category/list-active-categories:
     get:
       summary: Get a list of all active categories
       operationId: getAllActiveCategories
