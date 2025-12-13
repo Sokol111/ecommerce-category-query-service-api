@@ -4,6 +4,35 @@ info:
   version: 1.0.10
   description: API for querying categories
 paths:
+  /v1/category/get/{id}:
+    get:
+      summary: Get a category by ID
+      operationId: getCategoryById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Category retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryResponse"
+        "404":
+          description: Category not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "500":
+          description: Standard internal error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
   /v1/category/list-active-categories:
     get:
       summary: Get a list of all active categories
