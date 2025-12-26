@@ -54,11 +54,55 @@ paths:
                 $ref: "#/components/schemas/Problem"
 components:
   schemas:
+    AttributeRole:
+      type: string
+      enum:
+        - variant
+        - specification
+      description: How an attribute is used in a category
+    CategoryAttribute:
+      type: object
+      required:
+        - attributeId
+        - role
+        - required
+        - sortOrder
+        - filterable
+        - searchable
+        - enabled
+      properties:
+        attributeId:
+          type: string
+          description: Unique attribute identifier (UUID)
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        role:
+          $ref: "#/components/schemas/AttributeRole"
+        required:
+          type: boolean
+          description: Whether the attribute is required for products in this category
+          example: true
+        sortOrder:
+          type: integer
+          description: Sort order for display
+          example: 1
+        filterable:
+          type: boolean
+          description: Whether the attribute is filterable for this category
+          example: true
+        searchable:
+          type: boolean
+          description: Whether the attribute is searchable for this category
+          example: true
+        enabled:
+          type: boolean
+          description: Whether the attribute is enabled for this category
+          example: true
     CategoryResponse:
       type: object
       required:
         - id
         - name
+        - attributes
       properties:
         id:
           type: string
@@ -66,6 +110,10 @@ components:
         name:
           type: string
           example: "Smartphones"
+        attributes:
+          type: array
+          items:
+            $ref: "#/components/schemas/CategoryAttribute"
     Problem:
       type: object
       description: RFC7807 Problem Details
