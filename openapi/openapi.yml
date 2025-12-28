@@ -60,10 +60,51 @@ components:
         - variant
         - specification
       description: How an attribute is used in a category
+    AttributeType:
+      type: string
+      enum:
+        - single
+        - multiple
+        - range
+        - boolean
+        - text
+      description: Type of the attribute
+    AttributeOption:
+      type: object
+      description: Attribute option for single/multiple type attributes
+      required:
+        - value
+        - slug
+        - sortOrder
+        - enabled
+      properties:
+        value:
+          type: string
+          description: Display value of the option
+          example: "Red"
+        slug:
+          type: string
+          description: URL-friendly identifier
+          example: "red"
+        colorCode:
+          type: string
+          description: Color hex code (for color attributes)
+          example: "#FF0000"
+        sortOrder:
+          type: integer
+          description: Sort order for display
+          example: 1
+        enabled:
+          type: boolean
+          description: Whether the option is enabled
+          example: true
     CategoryAttribute:
       type: object
       required:
         - attributeId
+        - name
+        - slug
+        - type
         - role
         - required
         - sortOrder
@@ -75,6 +116,25 @@ components:
           type: string
           description: Unique attribute identifier (UUID)
           example: "550e8400-e29b-41d4-a716-446655440000"
+        name:
+          type: string
+          description: Display name of the attribute (denormalized from attribute-service)
+          example: "Color"
+        slug:
+          type: string
+          description: URL-friendly identifier (denormalized from attribute-service)
+          example: "color"
+        type:
+          $ref: "#/components/schemas/AttributeType"
+        unit:
+          type: string
+          description: Unit of measurement for range attributes (denormalized from attribute-service)
+          example: "GB"
+        options:
+          type: array
+          description: Available options for single/multiple type attributes (denormalized from attribute-service)
+          items:
+            $ref: "#/components/schemas/AttributeOption"
         role:
           $ref: "#/components/schemas/AttributeRole"
         required:
