@@ -73,14 +73,14 @@ components:
       type: object
       description: Attribute option for single/multiple type attributes
       required:
-        - value
+        - name
         - slug
         - sortOrder
         - enabled
       properties:
-        value:
+        name:
           type: string
-          description: Display value of the option
+          description: Display name of the option
           example: "Red"
         slug:
           type: string
