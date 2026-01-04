@@ -110,7 +110,6 @@ components:
         - sortOrder
         - filterable
         - searchable
-        - enabled
       properties:
         attributeId:
           type: string
@@ -152,10 +151,6 @@ components:
         searchable:
           type: boolean
           description: Whether the attribute is searchable for this category
-          example: true
-        enabled:
-          type: boolean
-          description: Whether the attribute is enabled for this category
           example: true
     CategoryResponse:
       type: object
