@@ -76,7 +76,6 @@ components:
         - name
         - slug
         - sortOrder
-        - enabled
       properties:
         name:
           type: string
@@ -94,10 +93,6 @@ components:
           type: integer
           description: Sort order for display
           example: 1
-        enabled:
-          type: boolean
-          description: Whether the option is enabled
-          example: true
     CategoryAttribute:
       type: object
       required:
