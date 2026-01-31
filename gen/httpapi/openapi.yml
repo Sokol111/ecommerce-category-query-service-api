@@ -1,0 +1,197 @@
+openapi: 3.0.0
+info:
+    title: Category API
+    version: 1.0.11
+    description: API for querying categories
+paths:
+    /v1/category/get/{id}:
+        get:
+            summary: Get a category by ID
+            operationId: getCategoryById
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: Category retrieved successfully
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/CategoryResponse"
+                "404":
+                    description: Category not found
+                    content:
+                        application/problem+json:
+                            schema:
+                                $ref: "#/components/schemas/Problem"
+                "500":
+                    description: Standard internal error
+                    content:
+                        application/problem+json:
+                            schema:
+                                $ref: "#/components/schemas/Problem"
+    /v1/category/list-active-categories:
+        get:
+            summary: Get a list of all active categories
+            operationId: getAllActiveCategories
+            responses:
+                "200":
+                    description: List of categories retrieved successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/CategoryResponse"
+                "500":
+                    description: Standard internal error
+                    content:
+                        application/problem+json:
+                            schema:
+                                $ref: "#/components/schemas/Problem"
+components:
+    schemas:
+        AttributeRole:
+            type: string
+            enum:
+                - variant
+                - specification
+            description: How an attribute is used in a category
+        AttributeType:
+            type: string
+            enum:
+                - single
+                - multiple
+                - range
+                - boolean
+                - text
+            description: Type of the attribute
+        AttributeOption:
+            type: object
+            description: Attribute option for single/multiple type attributes
+            required:
+                - name
+                - slug
+                - sortOrder
+            properties:
+                name:
+                    type: string
+                    description: Display name of the option
+                    example: "Red"
+                slug:
+                    type: string
+                    description: URL-friendly identifier
+                    example: "red"
+                colorCode:
+                    type: string
+                    description: Color hex code (for color attributes)
+                    example: "#FF0000"
+                sortOrder:
+                    type: integer
+                    description: Sort order for display
+                    example: 1
+        CategoryAttribute:
+            type: object
+            required:
+                - attributeId
+                - name
+                - slug
+                - type
+                - role
+                - required
+                - sortOrder
+                - filterable
+                - searchable
+            properties:
+                attributeId:
+                    type: string
+                    description: Unique attribute identifier (UUID)
+                    example: "550e8400-e29b-41d4-a716-446655440000"
+                name:
+                    type: string
+                    description: Display name of the attribute (denormalized from catalog-service)
+                    example: "Color"
+                slug:
+                    type: string
+                    description: URL-friendly identifier (denormalized from catalog-service)
+                    example: "color"
+                type:
+                    $ref: "#/components/schemas/AttributeType"
+                unit:
+                    type: string
+                    description: Unit of measurement for range attributes (denormalized from catalog-service)
+                    example: "GB"
+                options:
+                    type: array
+                    description: Available options for single/multiple type attributes (denormalized from catalog-service)
+                    items:
+                        $ref: "#/components/schemas/AttributeOption"
+                role:
+                    $ref: "#/components/schemas/AttributeRole"
+                required:
+                    type: boolean
+                    description: Whether the attribute is required for products in this category
+                    example: true
+                sortOrder:
+                    type: integer
+                    description: Sort order for display
+                    example: 1
+                filterable:
+                    type: boolean
+                    description: Whether the attribute is filterable for this category
+                    example: true
+                searchable:
+                    type: boolean
+                    description: Whether the attribute is searchable for this category
+                    example: true
+        CategoryResponse:
+            type: object
+            required:
+                - id
+                - name
+                - attributes
+            properties:
+                id:
+                    type: string
+                    example: "678b74a36fc2b2605c6f579d"
+                name:
+                    type: string
+                    example: "Smartphones"
+                attributes:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/CategoryAttribute"
+        Problem:
+            type: object
+            description: RFC7807 Problem Details
+            required:
+                - type
+                - title
+                - status
+            properties:
+                type:
+                    type: string
+                    format: uri
+                title:
+                    type: string
+                status:
+                    type: integer
+                detail:
+                    type: string
+                instance:
+                    type: string
+                    format: uri
+                traceId:
+                    type: string
+                errors:
+                    type: array
+                    items:
+                        type: object
+                        properties:
+                            field:
+                                type: string
+                            message:
+                                type: string
