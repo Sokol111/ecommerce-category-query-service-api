@@ -3,7 +3,7 @@
  * Do not edit manually.
  * Category API
  * API for querying categories
- * OpenAPI spec version: 1.0.11
+ * OpenAPI spec version: 1.0.12
  */
 import axios from 'axios';
 import type {
