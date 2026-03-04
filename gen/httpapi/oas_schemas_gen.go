@@ -182,8 +182,6 @@ type CategoryAttribute struct {
 	// Available options for single/multiple type attributes (denormalized from catalog-service).
 	Options []AttributeOption `json:"options"`
 	Role    AttributeRole     `json:"role"`
-	// Whether the attribute is required for products in this category.
-	Required bool `json:"required"`
 	// Sort order for display.
 	SortOrder int `json:"sortOrder"`
 	// Whether the attribute is filterable for this category.
@@ -225,11 +223,6 @@ func (s *CategoryAttribute) GetOptions() []AttributeOption {
 // GetRole returns the value of Role.
 func (s *CategoryAttribute) GetRole() AttributeRole {
 	return s.Role
-}
-
-// GetRequired returns the value of Required.
-func (s *CategoryAttribute) GetRequired() bool {
-	return s.Required
 }
 
 // GetSortOrder returns the value of SortOrder.
@@ -280,11 +273,6 @@ func (s *CategoryAttribute) SetOptions(val []AttributeOption) {
 // SetRole sets the value of Role.
 func (s *CategoryAttribute) SetRole(val AttributeRole) {
 	s.Role = val
-}
-
-// SetRequired sets the value of Required.
-func (s *CategoryAttribute) SetRequired(val bool) {
-	s.Required = val
 }
 
 // SetSortOrder sets the value of SortOrder.

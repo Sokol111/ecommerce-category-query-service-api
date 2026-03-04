@@ -3,7 +3,7 @@
  * Do not edit manually.
  * Category API
  * API for querying categories
- * OpenAPI spec version: 1.0.15
+ * OpenAPI spec version: 1.0.16
  */
 /**
  * How an attribute is used in a category
@@ -59,8 +59,6 @@ export interface CategoryAttribute {
   /** Available options for single/multiple type attributes (denormalized from catalog-service) */
   options?: AttributeOption[];
   role: AttributeRole;
-  /** Whether the attribute is required for products in this category */
-  required: boolean;
   /** Sort order for display */
   sortOrder: number;
   /** Whether the attribute is filterable for this category */

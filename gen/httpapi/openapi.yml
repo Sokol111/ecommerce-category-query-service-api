@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
     title: Category API
-    version: 1.0.15
+    version: 1.0.16
     description: API for querying categories
 paths:
     /v1/category/get/{id}:
@@ -101,7 +101,6 @@ components:
                 - slug
                 - type
                 - role
-                - required
                 - sortOrder
                 - filterable
                 - searchable
@@ -131,10 +130,6 @@ components:
                         $ref: "#/components/schemas/AttributeOption"
                 role:
                     $ref: "#/components/schemas/AttributeRole"
-                required:
-                    type: boolean
-                    description: Whether the attribute is required for products in this category
-                    example: true
                 sortOrder:
                     type: integer
                     description: Sort order for display

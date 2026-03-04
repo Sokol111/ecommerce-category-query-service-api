@@ -291,10 +291,6 @@ func (s *CategoryAttribute) encodeFields(e *jx.Encoder) {
 		s.Role.Encode(e)
 	}
 	{
-		e.FieldStart("required")
-		e.Bool(s.Required)
-	}
-	{
 		e.FieldStart("sortOrder")
 		e.Int(s.SortOrder)
 	}
@@ -308,18 +304,17 @@ func (s *CategoryAttribute) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfCategoryAttribute = [11]string{
-	0:  "attributeId",
-	1:  "name",
-	2:  "slug",
-	3:  "type",
-	4:  "unit",
-	5:  "options",
-	6:  "role",
-	7:  "required",
-	8:  "sortOrder",
-	9:  "filterable",
-	10: "searchable",
+var jsonFieldsNameOfCategoryAttribute = [10]string{
+	0: "attributeId",
+	1: "name",
+	2: "slug",
+	3: "type",
+	4: "unit",
+	5: "options",
+	6: "role",
+	7: "sortOrder",
+	8: "filterable",
+	9: "searchable",
 }
 
 // Decode decodes CategoryAttribute from json.
@@ -414,20 +409,8 @@ func (s *CategoryAttribute) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"role\"")
 			}
-		case "required":
-			requiredBitSet[0] |= 1 << 7
-			if err := func() error {
-				v, err := d.Bool()
-				s.Required = bool(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"required\"")
-			}
 		case "sortOrder":
-			requiredBitSet[1] |= 1 << 0
+			requiredBitSet[0] |= 1 << 7
 			if err := func() error {
 				v, err := d.Int()
 				s.SortOrder = int(v)
@@ -439,7 +422,7 @@ func (s *CategoryAttribute) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"sortOrder\"")
 			}
 		case "filterable":
-			requiredBitSet[1] |= 1 << 1
+			requiredBitSet[1] |= 1 << 0
 			if err := func() error {
 				v, err := d.Bool()
 				s.Filterable = bool(v)
@@ -451,7 +434,7 @@ func (s *CategoryAttribute) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"filterable\"")
 			}
 		case "searchable":
-			requiredBitSet[1] |= 1 << 2
+			requiredBitSet[1] |= 1 << 1
 			if err := func() error {
 				v, err := d.Bool()
 				s.Searchable = bool(v)
@@ -473,7 +456,7 @@ func (s *CategoryAttribute) Decode(d *jx.Decoder) error {
 	var failures []validate.FieldError
 	for i, mask := range [2]uint8{
 		0b11001111,
-		0b00000111,
+		0b00000011,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
