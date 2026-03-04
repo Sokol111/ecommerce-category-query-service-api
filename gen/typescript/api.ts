@@ -3,44 +3,114 @@
  * Do not edit manually.
  * Category API
  * API for querying categories
- * OpenAPI spec version: 1.0.14
+ * OpenAPI spec version: 1.0.15
  */
-import axios from 'axios';
 import type {
-  AxiosRequestConfig,
-  AxiosResponse
-} from 'axios';
-
-import type {
-  CategoryResponse
+  CategoryResponse,
+  Problem
 } from './api.schemas';
 
 
-
-
-  export const getCategoryAPI = () => {
 /**
  * @summary Get a category by ID
  */
-const getCategoryById = <TData = AxiosResponse<CategoryResponse>>(
-    id: string, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.get(
-      `/v1/category/get/${id}`,options
-    );
+export type getCategoryByIdResponse200 = {
+  data: CategoryResponse
+  status: 200
+}
+
+export type getCategoryByIdResponse404 = {
+  data: Problem
+  status: 404
+}
+
+export type getCategoryByIdResponse500 = {
+  data: Problem
+  status: 500
+}
+    
+export type getCategoryByIdResponseSuccess = (getCategoryByIdResponse200) & {
+  headers: Headers;
+};
+export type getCategoryByIdResponseError = (getCategoryByIdResponse404 | getCategoryByIdResponse500) & {
+  headers: Headers;
+};
+
+export type getCategoryByIdResponse = (getCategoryByIdResponseSuccess | getCategoryByIdResponseError)
+
+export const getGetCategoryByIdUrl = (id: string,) => {
+
+
+  
+
+  return `/v1/category/get/${id}`
+}
+
+export const getCategoryById = async (id: string, options?: RequestInit): Promise<getCategoryByIdResponse> => {
+  
+  const res = await fetch(getGetCategoryByIdUrl(id),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
   }
+)
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  
+  const data: getCategoryByIdResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as getCategoryByIdResponse
+}
+
+
 
 /**
  * @summary Get a list of all active categories
  */
-const getAllActiveCategories = <TData = AxiosResponse<CategoryResponse[]>>(
-     options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.get(
-      `/v1/category/list-active-categories`,options
-    );
-  }
+export type getAllActiveCategoriesResponse200 = {
+  data: CategoryResponse[]
+  status: 200
+}
 
-return {getCategoryById,getAllActiveCategories}};
-export type GetCategoryByIdResult = AxiosResponse<CategoryResponse>
-export type GetAllActiveCategoriesResult = AxiosResponse<CategoryResponse[]>
+export type getAllActiveCategoriesResponse500 = {
+  data: Problem
+  status: 500
+}
+    
+export type getAllActiveCategoriesResponseSuccess = (getAllActiveCategoriesResponse200) & {
+  headers: Headers;
+};
+export type getAllActiveCategoriesResponseError = (getAllActiveCategoriesResponse500) & {
+  headers: Headers;
+};
+
+export type getAllActiveCategoriesResponse = (getAllActiveCategoriesResponseSuccess | getAllActiveCategoriesResponseError)
+
+export const getGetAllActiveCategoriesUrl = () => {
+
+
+  
+
+  return `/v1/category/list-active-categories`
+}
+
+export const getAllActiveCategories = async ( options?: RequestInit): Promise<getAllActiveCategoriesResponse> => {
+  
+  const res = await fetch(getGetAllActiveCategoriesUrl(),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+)
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  
+  const data: getAllActiveCategoriesResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as getAllActiveCategoriesResponse
+}
+
+
+
