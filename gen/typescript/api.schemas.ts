@@ -3,7 +3,7 @@
  * Do not edit manually.
  * Category API
  * API for querying categories
- * OpenAPI spec version: 1.1.2
+ * OpenAPI spec version: 1.1.3
  */
 /**
  * How an attribute is used in a category
