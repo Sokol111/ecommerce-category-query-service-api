@@ -3,7 +3,7 @@
  * Do not edit manually.
  * Category API
  * API for querying categories
- * OpenAPI spec version: 1.1.3
+ * OpenAPI spec version: 1.1.4
  */
 import type {
   CategoryResponse,
