@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package category_query.v1;
+
+option go_package = "github.com/Sokol111/ecommerce-category-query-service-api/gen/connect/category_query/v1;categoryqueryv1";
+
+import "google/protobuf/timestamp.proto";
+
+// ==================== ENUMS ====================
+
+enum AttributeType {
+  ATTRIBUTE_TYPE_UNSPECIFIED = 0;
+  ATTRIBUTE_TYPE_SINGLE = 1;
+  ATTRIBUTE_TYPE_MULTIPLE = 2;
+  ATTRIBUTE_TYPE_RANGE = 3;
+  ATTRIBUTE_TYPE_BOOLEAN = 4;
+  ATTRIBUTE_TYPE_TEXT = 5;
+}
+
+enum CategoryAttributeRole {
+  CATEGORY_ATTRIBUTE_ROLE_UNSPECIFIED = 0;
+  CATEGORY_ATTRIBUTE_ROLE_VARIANT = 1;
+  CATEGORY_ATTRIBUTE_ROLE_SPECIFICATION = 2;
+}
+
+// ==================== ENTITIES ====================
+
+message AttributeOption {
+  string name = 1;
+  string slug = 2;
+  optional string color_code = 3;
+  int32 sort_order = 4;
+}
+
+// Denormalized attribute with full details from catalog-service.
+message CategoryAttribute {
+  string attribute_id = 1;
+  string name = 2;
+  string slug = 3;
+  AttributeType type = 4;
+  optional string unit = 5;
+  repeated AttributeOption options = 6;
+  CategoryAttributeRole role = 7;
+  int32 sort_order = 8;
+  bool filterable = 9;
+  bool searchable = 10;
+}
+
+message Category {
+  string id = 1;
+  string name = 2;
+  repeated CategoryAttribute attributes = 3;
+}
+
+// ==================== REQUESTS ====================
+
+message GetCategoryByIdRequest {
+  string id = 1;
+}
+
+message GetAllActiveCategoriesRequest {}
+
+// ==================== RESPONSES ====================
+
+message GetCategoryByIdResponse {
+  Category category = 1;
+}
+
+message GetAllActiveCategoriesResponse {
+  repeated Category categories = 1;
+}
+
+// ==================== SERVICE ====================
+
+service CategoryQueryService {
+  rpc GetCategoryById(GetCategoryByIdRequest) returns (GetCategoryByIdResponse);
+  rpc GetAllActiveCategories(GetAllActiveCategoriesRequest) returns (GetAllActiveCategoriesResponse);
+}
