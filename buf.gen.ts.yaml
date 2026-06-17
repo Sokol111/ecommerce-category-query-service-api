@@ -5,8 +5,3 @@ plugins:
     out: gen/typescript
     opt:
       - target=ts
-
-  - remote: buf.build/connectrpc/es
-    out: gen/typescript
-    opt:
-      - target=ts
