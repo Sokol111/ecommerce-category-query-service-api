@@ -4,8 +4,6 @@ package category_query.v1;
 
 option go_package = "github.com/Sokol111/ecommerce-category-query-service-api/gen/connect/category_query/v1;categoryqueryv1";
 
-import "google/protobuf/timestamp.proto";
-
 // ==================== ENUMS ====================
 
 enum AttributeType {
