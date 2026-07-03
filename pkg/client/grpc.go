@@ -4,7 +4,7 @@ import (
 	"github.com/knadh/koanf/v2"
 	"go.uber.org/fx"
 
-	categoryv1 "github.com/Sokol111/ecommerce-category-query-service-api/gen/connect/category_query/v1"
+	categoryv1 "github.com/Sokol111/ecommerce-category-query-service-api/gen/go/category_query/v1"
 	grpcclient "github.com/Sokol111/ecommerce-commons/pkg/grpc/client"
 )
 

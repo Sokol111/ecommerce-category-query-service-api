@@ -8,7 +8,7 @@ import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	v1 "github.com/Sokol111/ecommerce-category-query-service-api/gen/connect/category_query/v1"
+	v1 "github.com/Sokol111/ecommerce-category-query-service-api/gen/go/category_query/v1"
 	http "net/http"
 	strings "strings"
 )
