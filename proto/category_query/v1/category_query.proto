@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package category_query.v1;
 
+import "buf/validate/validate.proto";
+
 option go_package = "github.com/Sokol111/ecommerce-category-query-service-api/gen/go/category_query/v1;categoryqueryv1";
 
 // ==================== ENUMS ====================
@@ -53,7 +55,7 @@ message Category {
 // ==================== REQUESTS ====================
 
 message GetCategoryByIdRequest {
-  string id = 1;
+  string id = 1 [(buf.validate.field).string.uuid = true];
 }
 
 message GetAllActiveCategoriesRequest {}
