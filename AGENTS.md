@@ -14,11 +14,12 @@ write side.
 
 ## Source of truth vs. generated code
 
-- **Edit only `proto/category_query/v1/category_query.proto`.** Everything under `gen/` is
-  generated and committed to git (Go clients + TypeScript clients). Never hand-edit `gen/` —
-  change the `.proto` and run `make generate`.
+- **Edit `proto/category_query/v1/category_query.proto` for contract changes.** Everything under
+  `gen/` is generated and committed to git (Go clients + TypeScript clients). Never hand-edit
+  `gen/` — change the `.proto` and run `make generate`.
 - Generated TS **source** is committed; only `gen/typescript/{node_modules,dist,package-lock.json}`
   are gitignored (see `.gitignore`).
+- `pkg/fxconfig/grpc.go` is hand-written client wiring; edit it when the client integration changes.
 
 ## Common commands
 
