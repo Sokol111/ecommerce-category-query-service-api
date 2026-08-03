@@ -3,9 +3,9 @@
 ## What this repo is
 
 This is the **API contract repo** for `ecommerce-category-query-service` — the CQRS read side
-for categories. It contains **only protobuf definitions and their generated clients**; there is
-no service/runtime code here. The service that implements these RPCs and the query service that
-projects category events into a read model live in separate repos.
+for categories. It contains protobuf definitions, generated clients, and a thin hand-written Fx
+client helper. The service that implements these RPCs and the query service that projects category
+events into a read model live in separate repos.
 
 The `Category`/`CategoryAttribute` messages are **denormalized** — attributes carry their full
 details (name, slug, options, role, flags) copied from catalog-service, not just IDs. This is
@@ -27,7 +27,7 @@ make generate            # lint proto + generate TS client + generate Go client 
 make lint                # buf lint only
 make format              # buf format -w
 make clean               # remove all generated files
-make connect-breaking    # check for breaking proto changes against the 'main' branch
+make connect-breaking    # check for breaking proto changes against the 'master' branch
 make tidy                # go mod tidy
 make update-proto-deps   # buf dep update (refresh buf.lock)
 make help                # list all targets grouped by category
@@ -45,7 +45,7 @@ TS generation uses **buf remote plugins** (no local install needed); Go generati
 
 ## Code generation pipeline
 
-`make generate` (defined in the root `Makefile`, with logic split into `makefiles/`):
+`make generate` (defined in this repo's root `Makefile`, with logic split into `makefiles/`):
 
 - `makefiles/protobuf-connect.mk` — Go: `buf generate --template buf.gen.yaml` emits
   `protoc-gen-go` (messages), `protoc-gen-connect-go` (Connect handlers/clients), and
@@ -67,13 +67,11 @@ on the `master` branch triggers `.github/workflows/release.yml`, which delegates
 module and publishes the TS package. Downstream Go services then bump their `go.mod` to the new
 version (**release-then-bump** — the api must be released before a consumer can pin it).
 
-Note: `release.yml` watches `master`, but `make connect-breaking` checks against `main` — verify
-the correct default-branch name before relying on the breaking-change check.
+## Consuming the generated Go client (`pkg/fxconfig`)
 
-## Consuming the generated Go client (`pkg/client`)
-
-`pkg/client/grpc.go` is the one piece of hand-written Go here: an `fx.Module` that wires a native
-gRPC client for `CategoryQueryService`. It reads config from koanf under key
-`category-query.grpc`, builds a `grpcclient.Conn` from `ecommerce-commons/pkg/grpc/client`, and
-provides `categoryv1.NewCategoryQueryServiceClient`. A consuming service imports this module into
+`pkg/fxconfig/grpc.go` is the one piece of hand-written Go here:
+`fxconfig.NewGrpcClientsModule()` wires a native gRPC client for `CategoryQueryService`. It reads
+config from koanf under key
+`category-query.grpc`, builds a connection from `ecommerce-commons/pkg/http/grpc/client`, and
+provides `categoryv1.NewCategoryQueryServiceClient`. A consuming service composes this module in
 its `main.go` rather than dialing the connection itself.
